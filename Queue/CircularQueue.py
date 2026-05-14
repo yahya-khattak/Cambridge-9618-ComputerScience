@@ -1,35 +1,46 @@
+from typing import List
+
 DEFAULT_SIZE = 10
 
+
+
 class Queue:
-    def __init__(self):
+    Size: int
+    MaximumSize: int
+    Tail: int
+    Head: int
+    Array: List[any]
+
+    def __init__(self, Size=DEFAULT_SIZE):
         self.Size = 0
-        self.Head = 0
+        self.MaximumSize = Size
         self.Tail = 0
-        self.Array = [None] * DEFAULT_SIZE
+        self.Head = 0
+        self.Array = [ None ] * Size
 
     def Peek(self):
         return self.Array[self.Head]
     
-    def Enqueue(self, Data):
-        if (self.Size >= DEFAULT_SIZE):
+    def Enqueue(self, Element: any):
+        if (self.Size >= self.MaximumSize):
             return
         
-        self.Array[self.Head] = Data
+        self.Array[self.Tail] = Element
 
-        self.Head = (self.Head + 1) % DEFAULT_SIZE
+        self.Tail = ( self.Tail + 1 ) % self.MaximumSize
         self.Size += 1
 
     def Dequeue(self):
         if (self.Size == 0):
-            return
+            return None
         
-        Value = self.Array[self.Tail]
+        Element = self.Array[self.Head]
 
-        self.Tail = (self.Tail + 1) % DEFAULT_SIZE
+        self.Array[self.Head] = None
+        self.Head = ( self.Head + 1 ) % self.MaximumSize
         self.Size -= 1
 
-        return Value
-    
+        return Element
 
 
 def Main():
@@ -38,6 +49,8 @@ def Main():
     MyQueue.Enqueue("G")
     MyQueue.Enqueue("F")
     MyQueue.Enqueue("C")
+
+    print( MyQueue.Peek() )
 
     print( MyQueue.Dequeue() )
     print( MyQueue.Dequeue() )
